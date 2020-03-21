@@ -1,6 +1,6 @@
 +flag(F): team(200)
   <-
-  .create_control_points(F,500,4,C);
+  .create_control_points(F,400,4,C);
   +control_points(C);
   //.wait(5000);
   .length(C,L);
