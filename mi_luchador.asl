@@ -1,5 +1,3 @@
-//EJEMPLO LUCHADOR 
-
 +flag(F): team(200)
   <-
   .create_control_points(F,500,4,C);
