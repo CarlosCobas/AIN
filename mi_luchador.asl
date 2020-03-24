@@ -1,15 +1,48 @@
 +flag(F): team(200)
   <-
+<<<<<<< HEAD
   .create_control_points(F,400,4,C);
   +control_points(C);
   //.wait(5000);
+=======
+  //.create_control_points(F,500,4,C);
+  // Puntos de control borde del mapa
+  +control_points([[10,0,10],[246,0,10],[246,0,246],[10,0,246]]);
+  ?control_points(C);
+>>>>>>> master
   .length(C,L);
   +total_control_points(L);
+  
+  //calcula punto de control mas cercano
+  +get_closest_control_point;
+  ?closest_control_point(PointIndex);
+  .nth(PointIndex,C,Point);
+  .print("Punto mas cercano:", PointIndex , Point);
+  
+  //ir al punto mas cercano
   +patrolling;
-  +patroll_point(0);
+  +patroll_point(PointIndex);
   .print("Got control points:", C).
 
+//******************************************************************************
+//******************************************************************************
+// Anyade creencia "closest_control_point(i)"
+// i = indice punto mas cercano en lista puntos control
 
++get_closest_control_point : position([X,Y,Z]) & X < 128 & Z < 128
+  <-
+  +closest_control_point(0).
++get_closest_control_point: position([X,Y,Z]) &  X >= 128 & Z < 128
+  <-
+  +closest_control_point(1).
++get_closest_control_point : position([X,Y,Z]) &  X >= 128 & Z >= 128
+  <-
+  +closest_control_point(2).
++get_closest_control_point : position([X,Y,Z]) &  X < 128 & Z >= 128
+  <-
+  +closest_control_point(3).
+
+//******************************************************************************
 +target_reached(T): patrolling & team(200)
   <-
   ?patroll_point(P);
@@ -72,4 +105,6 @@
 
 +friends_in_fov(ID,Type,Angle,Distance,Health,Position)
   <-
+  .look_at(Position);
+  .print("Objectivo fijado en Enemigo:" , ID , " " , Position);
   .shoot(9,Position).

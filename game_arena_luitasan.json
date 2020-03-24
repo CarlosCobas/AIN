@@ -1,0 +1,39 @@
+{
+    "host": "localhost",
+    "manager": "manager_luitasan",
+    "manager_password": "secret",
+    "service": "service_luitasan",
+    "service_password": "secret",
+    "axis": [
+		{
+            "rank": "BDISoldier",
+            "name": "a",
+            "password": "secret",
+            "amount": 22,
+            "asl": "luchador.asl"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "custom_luchador_luitasan",
+            "password": "secret",
+            "amount": 1,
+            "asl": "mi_luchador.asl"
+        }
+    ],
+     "allied": [
+                {
+            "rank": "invencibleM.BDIMInvencible",
+            "name": "medic_luitasan",
+            "password": "secret",
+            "amount": 1,
+            "asl": "medic_arena.asl"
+        }, 
+        {
+            "rank": "invencibleF.BDIFInvencible",
+            "name": "fieldop_luitasan",
+            "password": "secret",
+            "amount": 1,
+            "asl": "fieldop_arena.asl"
+        }
+   ]
+  }
