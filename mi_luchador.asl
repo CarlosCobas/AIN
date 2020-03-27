@@ -49,7 +49,10 @@
 +vueltas_mapa(X): X==2
   <-
   -defensa;
+  //mi_luchador.asl:56:3: error: plan failure
+  //
   ?control_points(A);
+ //^~~~~~~~~~~~~~~
   -control_points(A);
   ?flag(F);
   .create_control_points(F,200,4,C);
@@ -59,38 +62,35 @@
   .print("Atacando").
 
 
-
-+target_reached(T): patrolling & team(200)
-  <-
-  ?patroll_point(P);
-  -+patroll_point(P+1);
-  -target_reached(T).
-
 +target_reached(T): patrolling & team(200) & sentido_anti_horario
   <-
+  .print("[DEBUG] plan target_reached sentido_anti_horario");
   ?patroll_point(P);
   -+patroll_point(P-1);
   -target_reached(T).
 
 +target_reached(T): patrolling & team(200) & sentido_horario
   <-
+  .print("[DEBUG] plan target_reached sentido_horario");
   ?patroll_point(P);
   -+patroll_point(P+1);
   -target_reached(T).
 
-+patroll_point(P): total_control_points(T) & P<T
+
++target_reached(T): patrolling & team(200)
   <-
-  ?control_points(C);
-  .nth(P,C,A);
-  .goto(A).
- // .print("Voy a Pos: ", A).
+  .print("[DEBUG] plan target_reached");
+  ?patroll_point(P);
+  -+patroll_point(P+1);
+  -target_reached(T).
 
  +patroll_point(P): total_control_points(T) & P < 0
   <-
-  ?control_points(C);
-  .nth(T,C,A);
-  .goto(A).
- // .print("Voy a Pos: ", A).
+  -patroll_point(P);
+  ?vueltas_mapa(X);
+  .print("[DEBUG] patroll_point : P < 0 ");
+  -+vueltas_mapa(X+1);
+  +patroll_point(T-1).
 
 +patroll_point(P): total_control_points(T) & P==T
   <-
@@ -98,6 +98,14 @@
   ?vueltas_mapa(X);
   -+vueltas_mapa(X+1);
   +patroll_point(0).
+
+
++patroll_point(P): total_control_points(T) & P<T & P>=0
+  <-
+  ?control_points(C);
+  .nth(P,C,A);
+  .goto(A).
+ // .print("Voy a Pos: ", A).
 
 +pack_taken(TYPE, N):
     TYPE == 1001 & picking_health
