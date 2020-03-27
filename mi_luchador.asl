@@ -62,6 +62,8 @@
   .print("Atacando").
 
 
+//******************************************************************************
+
 +target_reached(T): patrolling & team(200) & sentido_anti_horario
   <-
   .print("[DEBUG] plan target_reached sentido_anti_horario");
@@ -83,6 +85,8 @@
   ?patroll_point(P);
   -+patroll_point(P+1);
   -target_reached(T).
+
+//******************************************************************************
 
  +patroll_point(P): total_control_points(T) & P < 0
   <-
@@ -106,6 +110,8 @@
   .nth(P,C,A);
   .goto(A).
  // .print("Voy a Pos: ", A).
+
+//******************************************************************************
 
 +pack_taken(TYPE, N):
     TYPE == 1001 & picking_health
