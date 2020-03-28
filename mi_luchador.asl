@@ -1,5 +1,15 @@
 +flag(F): team(200)
+ <-
+ 	+start_defense_mode;
+	//+start_attack_mode;
+	.print("fin inicializacion").
+
+//******************************************************************************
+
++start_defense_mode 
   <-
+  .print("Iniciando modo defensa");
+  ?flag(F);
   //.create_control_points(F,500,4,C);
   // Puntos de control borde del mapa
   +control_points([[10,0,10],[246,0,10],[246,0,246],[10,0,246]]);
