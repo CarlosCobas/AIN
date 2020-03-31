@@ -1,0 +1,39 @@
+{
+    "host": "192.168.1.161",
+    "manager": "manager_carpeco1",
+    "manager_password": "secret",
+    "service": "service_carpeco1",
+    "service_password": "secret",
+    "axis": [
+		{
+            "rank": "BDISoldier",
+            "name": "a",
+            "password": "secret",
+            "amount": 4,
+            "asl": "luchador.asl"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "custom_luchador_carpeco1",
+            "password": "secret",
+            "amount": 1,
+            "asl": "mi_luchador.asl"
+        }
+    ],
+     "allied": [
+                {
+            "rank": "invencibleM.BDIMInvencible",
+            "name": "medic_carpeco1",
+            "password": "secret",
+            "amount": 1,
+            "asl": "medic_arena.asl"
+        }, 
+        {
+            "rank": "invencibleF.BDIFInvencible",
+            "name": "fieldop_carpeco1",
+            "password": "secret",
+            "amount": 3,
+            "asl": "fieldop_arena.asl"
+        }
+   ]
+  }

@@ -1,5 +1,6 @@
 +flag(F): team(200)
  <-
+  +giro_total(0);
  	+start_defense_mode;
 	//+start_attack_mode;
 	.print("fin inicializacion").
@@ -26,12 +27,14 @@
   
   //ir al punto mas cercano
   +patrolling;
-  +vueltas_mapa(0);
+  //+vueltas_mapa(0);
+
   +sentido_anti_horario;
   ?health(Crrnt_hlt);
   +current_health(Crrnt_hlt);
   +defensa;
   +patroll_point(PointIndex);
+  +vueltas_mapa(1);
   .print("Got control points:", C).
 
 //******************************************************************************
@@ -56,16 +59,13 @@
 
 
 
-+vueltas_mapa(X): X==2
++vueltas_mapa(X): X==1
   <-
   -defensa;
-  //mi_luchador.asl:56:3: error: plan failure
-  //
-  ?control_points(A);
- //^~~~~~~~~~~~~~~
-  -control_points(A);
+  -control_points(_);
   ?flag(F);
-  .create_control_points(F,200,4,C);
+  //.create_control_points(F,200,4,C);
+  +control_points([[143,0,100],[100,0,143],[130,0,145],[100,0,143]]);
   ?control_points(C);
   .length(C,L);
   +total_control_points(L);
@@ -199,3 +199,10 @@
   +target(ID);
   .shoot(9,Position).
 
++health(X) : current_health(H) & X < H & not defensa & not target(_)
+  <-
+  .print("Girando");
+  -+current_health(X);
+  ?giro_total(G);
+  -+giro_total(G + 0.3);
+  .turn(G + 0.3).
