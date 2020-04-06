@@ -1,3 +1,6 @@
+// Carlos Enrique Perez Cobas
+// Luis Taverner Sanmartin
+
 +flag(F): team(200)
  <-
   +giro_total(0);
@@ -165,16 +168,6 @@
     +going_to_flag;
     .goto(Y).
 
-+health(X) : current_health(H) & X < H & not target(_)
-  <-
-  .print("Girando");
-  -+current_health(X);
-  ?giro_total(G);
-  .print("Giro total ", G);
-  -+giro_total(G + 0.3);
-  .print("Giro total sumado ", G + 0.3);
-  .turn(G + 0.3).
-
 +health(X) : current_health(H) & X < H & defensa & sentido_horario
   <-
   -sentido_horario;
@@ -191,7 +184,7 @@
   +sentido_horario;
   .print("sentido_horario").
 
-+friends_in_fov(ID,Type,Angle,Distance,Health,Position) 
++friends_in_fov(ID,_,_,_,_,Position) 
 :  target(Target) & Target == ID & not picking_ammo & not picking_health
 <- 
   .print("Objectivo fijado en Enemigo:" , ID , " " , Position);
@@ -199,18 +192,28 @@
   .shoot(9,Position);
   .goto(Position).
 
-+friends_in_fov(ID,Type,Angle,Distance,Health,Position) 
++friends_in_fov(ID,_,_,_,_,Position) 
 :  not picking_ammo & not picking_health & not target(_)
   <-
   .print("Nuevo Objectivo fijado en Enemigo:" , ID , " " , Position);
   +target(ID);
   .shoot(10,Position).
 
--friends_in_fov(ID,Type,Angle,Distance,Health,Position) 
-  : target(CurrntTaget) & CurrntTaget = ID 
+-friends_in_fov(ID,_,_,_,_,_) 
+  : target(CurrntTaget) & CurrntTaget == ID & not friends_in_fov(CurrntTaget,_,_,_,_,_)
   <-
   .print("Perdi al enemigo");
-  ?patroll_point(P);
-  -+patroll_point(P);
+  //?patroll_point(P);
+  //-+patroll_point(P);
   -target(ID).
+
++health(X) : current_health(H) & X < H & not target(_)
+  <-
+  .print("Girando");
+  -+current_health(X);
+  ?giro_total(G);
+  .print("Giro total ", G);
+  -+giro_total(G + 0.3);
+  .print("Giro total sumado ", G + 0.3);
+  .turn(G + 0.3).
 
