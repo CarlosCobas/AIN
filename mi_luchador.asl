@@ -34,7 +34,7 @@
   +current_health(Crrnt_hlt);
   +defensa;
   +patroll_point(PointIndex);
-  +vueltas_mapa(1);
+  +vueltas_mapa(0);
   .print("Got control points:", C).
 
 //******************************************************************************
@@ -138,7 +138,7 @@
     -going_to_flag.
 
 +packs_in_fov(ID, TYPE, ANGLE, DIST, HEALTH, POS): 
-    TYPE == 1001 & health(X) & X < 25 & not picking_health & not defensa
+    TYPE == 1001 & health(X) & X < 35 & not picking_health & not defensa
     <- 
     .print("voy a buscar salud");
     +picking_health;
@@ -151,19 +151,29 @@
     +picking_ammo;
     .goto(POS). 
 
-+health(X): X < 25 & not going_to_flag & not defensa
++health(X): X < 25 & not going_to_flag
     <- 
     ?flag(Y);
     .print("Voy bandera por salud");
     +going_to_flag;
     .goto(Y).
 
-+ammo(X): X < 25 & not going_to_flag & not defensa
++ammo(X): X < 25 & not going_to_flag
     <- 
     ?flag(Y);
     .print("Voy bandera por ammo");
     +going_to_flag;
     .goto(Y).
+
++health(X) : current_health(H) & X < H & not target(_)
+  <-
+  .print("Girando");
+  -+current_health(X);
+  ?giro_total(G);
+  .print("Giro total ", G);
+  -+giro_total(G + 0.3);
+  .print("Giro total sumado ", G + 0.3);
+  .turn(G + 0.3).
 
 +health(X) : current_health(H) & X < H & defensa & sentido_horario
   <-
@@ -181,28 +191,26 @@
   +sentido_horario;
   .print("sentido_horario").
 
-
 +friends_in_fov(ID,Type,Angle,Distance,Health,Position) 
-: not defensa & target(Target) & Target == ID & not picking_ammo & not picking_health
+:  target(Target) & Target == ID & not picking_ammo & not picking_health
 <- 
-  .look_at(Position);
   .print("Objectivo fijado en Enemigo:" , ID , " " , Position);
   +target(ID);
   .shoot(9,Position);
   .goto(Position).
 
 +friends_in_fov(ID,Type,Angle,Distance,Health,Position) 
-: not defensa & not picking_ammo & not picking_health
+:  not picking_ammo & not picking_health & not target(_)
   <-
-  .look_at(Position);
-  .print("Objectivo fijado en Enemigo:" , ID , " " , Position);
+  .print("Nuevo Objectivo fijado en Enemigo:" , ID , " " , Position);
   +target(ID);
-  .shoot(9,Position).
+  .shoot(10,Position).
 
-+health(X) : current_health(H) & X < H & not defensa & not target(_)
+-friends_in_fov(ID,Type,Angle,Distance,Health,Position) 
+  : target(CurrntTaget) & CurrntTaget = ID 
   <-
-  .print("Girando");
-  -+current_health(X);
-  ?giro_total(G);
-  -+giro_total(G + 0.3);
-  .turn(G + 0.3).
+  .print("Perdi al enemigo");
+  ?patroll_point(P);
+  -+patroll_point(P);
+  -target(ID).
+
