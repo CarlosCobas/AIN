@@ -1,0 +1,53 @@
+{
+    "host": "localhost",
+    "manager": "manager_carpeco1",
+    "manager_password": "secret",
+    "service": "service_carpeco1",
+    "service_password": "secret",
+    "axis": [
+    {
+            "rank": "squadFieldOp.SquadFieldOp",
+            "name": "axis_fieldop_carpeco1",
+            "password": "secret",
+            "amount": 2,
+            "asl": "squad_troop.asl"
+        },
+    {
+            "rank": "squadMedic.SquadMedic",
+            "name": "axis_medic_carpeco1",
+            "password": "secret",
+            "amount": 2,
+            "asl": "squad_troop.asl"
+        },
+    {
+            "rank": "squadSoldier.SquadSoldier",
+            "name": "axis_soldier_carpeco1",
+            "password": "secret",
+            "amount": 1,
+            "asl": "squad_troop.asl"
+        },
+    {
+            "rank": "squadLeader.SquadLeader",
+            "name": "axis_squadleader_carpeco1",
+            "password": "secret",
+            "amount": 2,
+            "asl": "squad_leader.asl"
+        },
+    {
+            "rank": "BDISoldier",
+            "name": "axis_guardsoldier_carpeco1",
+            "password": "secret",
+            "amount": 3,
+            "asl": "guard_troop.asl"
+    }
+    ],
+     "allied": [
+    {
+            "rank": "BDISoldier",
+            "name": "allied_carpeco1",
+            "password": "secret",
+            "amount": 10,
+            "asl": "bdisoldier.asl"
+        }
+   ]
+  }
