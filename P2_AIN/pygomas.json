@@ -1,5 +1,5 @@
 {
-    "host": "localhost",
+    "host": "192.168.1.161",
     "manager": "manager_carpeco1",
     "manager_password": "secret",
     "service": "service_carpeco1",
@@ -34,7 +34,7 @@
             "asl": "squad_leader.asl"
         },
     {
-            "rank": "BDISoldier",
+            "rank": "squadSoldier.SquadSoldier",
             "name": "axis_guardsoldier_carpeco1",
             "password": "secret",
             "amount": 3,

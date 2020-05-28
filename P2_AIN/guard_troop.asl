@@ -45,6 +45,15 @@
   //
   +base_position(F);
   +set_primary_action(goto_base,F).
+
+
+//******************************************************************************
+// Recopilar todos los lideres de escuadron para pedir ayuda en caso de ataque a bandera
+
++leader(L)[source(A)]
+<-
+  .print("Leaders ", L);
+  -+leaders_list(L).
  
 //******************************************************************************
 // Acciones primarias
@@ -99,6 +108,7 @@
 	.print("set primary action to guard_base ");
 	if(primary_action(_)){ -primary_action(_);}
 	+primary_action(guard_base);
+  .get_service("leader");
 	+start_patroll.
 
 //Transiciones entre estados
@@ -155,6 +165,40 @@
 	.reload;
 	-secondary_action(helping).
 	
+//*************************************
+// Pedir ayuda en caso de ataque a bandera
++enemies_in_fov(ID,Type,Angle,Distance,Health,Position): Health > 0 & not secondary_action(_) & not asking_backup
+<-
+  ?leaders_list(Leaders);
+  +responses([]);
+  +agents([]);
+  .send(Leaders, tell, ask_for_backup);
+  +asking_backup;
+  .wait(1000);
+  !!pick_closest_backup.
+
++backup_details(Pos)[source(A)]
+<-
+  ?responses(R);
+  .concat(R, [Pos], R1);
+  -+responses(R1);
+  ?agents(Ag);
+  .concat(Ag, [A], Ag1);
+  -+agents(Ag1).
+
+
++!pick_closest_backup: agents(Ag) & responses(R)
+<-
+  .print("Responses From: ", Ag);
+  .length(R,LR);
+  if(LR > 0) {
+    .getClosestPoint(R, CPI); 
+    .nth(CPI, Ag, A);
+    ?position(P);
+    .send(A, tell, come_help_me(P));
+  }.
+  
+
 //*************************************
 // accion secundaria: MATAR
 
@@ -213,7 +257,7 @@
 
 +start_patroll: position(MyPos)
 <-
-   .create_control_points(MyPos,40,10,C);
+   .create_control_points(MyPos,4,10,C);
    +control_points(C);
    .length(C,L);
    +total_control_points(L);

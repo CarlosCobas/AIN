@@ -179,3 +179,29 @@ class SquadSoldier(BDISoldier):
       ##
       if asp.unify(term.args[-1], enemyCount, intention.scope, intention.stack):
         yield
+    #==================================#
+    """
+    Get closest Point
+    """
+    @actions.add(".getClosestPoint", 2)
+    def _getClosestPoint(agent, term, intention):
+      agentPos = tuple((self.movement.position.x, self.movement.position.y, self.movement.position.z,))
+      backUpPos = asp.grounded(term.args[0], intention.scope)
+      logger.success( "[{}] Recieved Positions: {}".format(self.jid.localpart, backUpPos) )
+      closestIndex = 0
+      minDist = 10000000
+      i = 0      
+      while i < len(backUpPos):
+        pos = backUpPos[i]
+        x = (pos[0] - agentPos[0]) * (pos[0] - agentPos[0])
+        y = (pos[1] - agentPos[1]) * (pos[1] - agentPos[1])
+        z = (pos[2] - agentPos[2]) * (pos[2] - agentPos[2])
+        realDist = math.sqrt(x+y+z)
+        if(realDist < minDist):
+          minDist = realDist
+          closestIndex = i
+        i+=1
+
+      if asp.unify(term.args[-1], closestIndex, intention.scope, intention.stack):
+        yield
+    

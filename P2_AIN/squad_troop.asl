@@ -48,6 +48,8 @@
   .getSquadLeader(Leader);
   .print("My squad leader is" , Leader);
   +squad_leader(Leader).
+
+
  
 //******************************************************************************
 // Acciones primarias

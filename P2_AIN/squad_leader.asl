@@ -4,6 +4,7 @@
   <-
   .getSquadLeader(Leader);
   .print("My squad leader is" , Leader);
+  .register_service("leader");
   +squad_leader(Leader);
   //Transmite posicion base enemiga
   .getEnemyBase(EnemyBase);
@@ -55,6 +56,22 @@
   }else{
     +squadMembers([A]);
   }.
+
+//*******************************************************************************
+//Responder solicitud de apoyo
++ask_for_backup[source(A)]: not helping
+<-
+  .print("Ofreciendo ayuda");
+  ?position(MY_POS);
+  .send(A, tell, backup_details(MY_POS)).
+
++come_help_me(P)[source(A)]:not helping
+<-
+  .stop;
+  -going_to_EnemyBase;
+  +send_msg(msg_goto_base(P));
+  +helping;
+  .goto(P).
  
 //****************************************************************************//
 //pedir suministros
@@ -63,9 +80,9 @@
 // MEDICPACK = 1001
 // AMMOPACK  = 1002
 
-//+health(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
++health(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
 //+test_medpack_request
-+request_medpack
+//+request_medpack
 <-
 	+start_patroll;
 	?health(H);
@@ -74,9 +91,9 @@
 	else
 	{ +request_pack(1001);}.
 
-//+ammo(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
++ammo(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
 //+test_ammopack_request
-+request_ammopack
+//+request_ammopack
 <-
 	+start_patroll; 
 	?ammo(A);
@@ -151,6 +168,18 @@
   <-
   -grouping_squad;
   .wait(2000);//Esperar al resto de miembros
+  .print("Squad going to enemy base");
+  .getEnemyBase(EnemyBase);
+  +send_msg(msg_goto_base(EnemyBase));
+  +going_to_EnemyBase;
+  .goto(EnemyBase).
+  //+test_ammopack_request.
+
+//Vuelve a base enemiga luego de ayudar
++target_reached(T): helping
+  <-
+  -helping;
+  .wait(1000);//Esperar al resto de miembros
   .print("Squad going to enemy base");
   .getEnemyBase(EnemyBase);
   +send_msg(msg_goto_base(EnemyBase));
