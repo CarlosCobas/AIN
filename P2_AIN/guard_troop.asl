@@ -108,7 +108,6 @@
 	.print("set primary action to guard_base ");
 	if(primary_action(_)){ -primary_action(_);}
 	+primary_action(guard_base);
-  .get_service("leader");
 	+start_patroll.
 
 //Transiciones entre estados
@@ -169,6 +168,7 @@
 // Pedir ayuda en caso de ataque a bandera
 +enemies_in_fov(ID,Type,Angle,Distance,Health,Position): Health > 0 & not secondary_action(_) & not asking_backup
 <-
+  .get_service("leader");
   ?leaders_list(Leaders);
   +responses([]);
   +agents([]);
