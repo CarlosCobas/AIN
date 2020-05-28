@@ -80,9 +80,9 @@
 // MEDICPACK = 1001
 // AMMOPACK  = 1002
 
-+health(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
+//+health(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
 //+test_medpack_request
-//+request_medpack
++request_medpack
 <-
 	+start_patroll;
 	?health(H);
@@ -91,9 +91,9 @@
 	else
 	{ +request_pack(1001);}.
 
-+ammo(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
+//+ammo(X) : X < 25 & primary_action(guard_base) & not waiting_pack(_) & not waiting_response
 //+test_ammopack_request
-//+request_ammopack
++request_ammopack
 <-
 	+start_patroll; 
 	?ammo(A);
